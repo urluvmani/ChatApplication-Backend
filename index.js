@@ -15,8 +15,20 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+const allowedOrigins = [
+  'https://mani-chats.vercel.app',
+  /\.vercel\.app$/ // optional: dynamic vercel deployments
+];
+
 app.use(cors({
-  origin: true,
+  origin: function(origin, callback){
+    if(!origin) return callback(null, true); // for postman / server
+    if(allowedOrigins.some(o => (o instanceof RegExp ? o.test(origin) : o === origin))) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
   credentials: true
 }));
 
