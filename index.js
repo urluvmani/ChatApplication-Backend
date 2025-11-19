@@ -17,8 +17,10 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json()); 
 app.use(cookieParser());
 const corsOption={
-    origin:'https://mani-chats.vercel.app',
-    credentials:true
+    origin: ['https://mani-chats.vercel.app', /\.vercel\.app$/],
+    origin: true, 
+credentials: true
+
 };
 app.use(cors(corsOption)); 
 
